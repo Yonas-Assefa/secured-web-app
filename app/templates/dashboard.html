@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome, {{name}}
+</h1>
+<br>
+<h2><u>here is your menu, eat what you like</u> </h2>
+<h3><a href="">your previous feedbacks</a></h3>
+<h3><a href = {{ url_for('auth.add_comment') }} >Give us Feedback </a></h3>
+{% endblock %}

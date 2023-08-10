@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>All Feedbacks</h1>
+
+  <ul>
+    {% for feedback in feedbacks %}
+      <li>
+        <form action="{{ url_for('main.edit_feedback', feedback_id=feedback.id) }}" method="POST">
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" class="form-control" value="{{ feedback.title }}" required>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" class="form-control" required>{{ feedback.description }}</textarea>
+          </div>
+          
+          <!-- Add additional fields for any other feedback properties you have -->
+
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

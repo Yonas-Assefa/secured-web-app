@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>All Feedbacks</h1>
+
+  <ul>
+    {% for feedback in feedbacks %}
+      <li>
+        <div class="feedback">
+          <h3 class="feedback-title">{{ feedback.title }}</h3>
+          <p class="feedback-description">{{ feedback.description }}</p>
+          {% if feedback.attachment %}
+            <p>Attachment: <a href="{{ url_for('static', filename='uploads/' ~ feedback.attachment) }}">{{ feedback.attachment }}</a></p>
+          {% endif %}
+          <button class="edit-button" data-feedback-id="{{ feedback.id }}">Edit</button>
+          <div id="edit-form-{{ feedback.id }}" class="edit-form hidden">
+            <form action="{{ url_for('main.edit_feedback', feedback_id=feedback.id) }}" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="edit-title">Title:</label>
+                <input type="text" id="edit-title" name="title" class="form-control" value="{{ feedback.title }}">
+              </div>
+              <div class="form-group">
+                <label for="edit-description">Description:</label>
+                <textarea id="edit-description" name="description" class="form-control">{{ feedback.description }}</textarea>
+              </div>
+              <div class="form-group">
+                <label for="edit-attachment">Attachment:</label>
+                <input type="file" id="edit-attachment" name="attachment" class="form-control-file">
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <style>
+    .feedback {
+      margin-bottom: 20px;
+    }
+
+    .edit-form {
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+
+  <script>
+    // JavaScript code to handle showing edit form
+    document.addEventListener("DOMContentLoaded", function() {
+      const editButtons = document.querySelectorAll(".edit-button");
+
+      editButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+          const feedbackId = this.getAttribute("data-feedback-id");
+          const editForm = document.querySelector(`#edit-form-${feedbackId}`);
+
+          editForm.classList.toggle("hidden");
+        });
+      });
+    });
+  </script>
+{% endblock %}
